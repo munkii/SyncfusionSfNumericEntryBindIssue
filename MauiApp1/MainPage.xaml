@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiApp1.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:ProjectBreatheApp.Maui.Behaviors"
+    xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+    xmlns:local="clr-namespace:MauiApp1"
+    xmlns:scheduler="clr-namespace:Syncfusion.Maui.Scheduler;assembly=Syncfusion.Maui.Scheduler"
+    Background="AntiqueWhite">
+    <ContentPage.BindingContext>
+        <local:ClockViewModel />
+    </ContentPage.BindingContext>
+    <ScrollView>
+        <VerticalStackLayout Padding="30,0" Spacing="25">
+            <editors:SfNumericEntry
+                Margin="0"
+                AllowNull="True"
+                AutomationId="BloodGlucoseInputTextBoxId"
+                BackgroundColor="Transparent"
+                CustomFormat="00"
+                FontSize="Large"
+                Placeholder="%"
+                Style="{StaticResource CaptureEntryStyle}"
+                TextColor="Red"
+                ValueChangeMode="OnKeyFocus"
+                VerticalOptions="Center"
+                Value="{Binding SlotValue, Mode=TwoWay}">
+            </editors:SfNumericEntry>
+
+            <editors:SfNumericEntry
+                Margin="0"
+                AllowNull="True"
+                BackgroundColor="Transparent"
+                CustomFormat="00"
+                FontSize="Large"
+                Placeholder="%"
+                Style="{StaticResource CaptureEntryStyle}"
+                TextColor="Red"
+                ValueChangeMode="OnKeyFocus"
+                VerticalOptions="Center"
+                Value="{Binding SlotValue, Mode=TwoWay}">
+
+            </editors:SfNumericEntry>
+
+            <Picker
+                Title="Select option"
+                SelectedIndex="{Binding SlotIndex}"
+                TextColor="Black">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Slot 1</x:String>
+                        <x:String>Slot 2</x:String>
+                        <x:String>Slot 3</x:String>
+                        <x:String>Slot 4</x:String>
+                        <x:String>Slot 5</x:String>
+                        <x:String>Slot 6</x:String>
+                        <x:String>Slot 7</x:String>
+                        <x:String>Slot 8</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+            <scheduler:SfScheduler
+                x:Name="calendar"
+                AppointmentsSource="{Binding Values}"
+                FirstDayOfWeek="Monday"
+                SelectedDate="{Binding CurrentDate}"
+                ShowNavigationArrows="True"
+                TodayHighlightBrush="{StaticResource DawnBlueColor}"
+                View="Month">
+                <scheduler:SfScheduler.AppointmentMapping>
+                    <scheduler:SchedulerAppointmentMapping
+                        EndTime="EndOfDay"
+                        StartTime="StartOfDay"
+                        Subject="Value"
+                        TextColorMapping="Color" />
+                </scheduler:SfScheduler.AppointmentMapping>
+                <scheduler:SfScheduler.Behaviors>
+                    <behaviors:SfSchedulerSelectionChangedToSimpleCommandBehavior DateChangedSimpleCommand="{Binding SelectedDateChangedCommand}" />
+                </scheduler:SfScheduler.Behaviors>
+                <scheduler:SfScheduler.MonthView>
+                    <scheduler:SchedulerMonthView AppointmentDisplayMode="Indicator" ShowLeadingAndTrailingDates="True">
+                        <scheduler:SchedulerMonthView.ViewHeaderSettings>
+                            <scheduler:SchedulerViewHeaderSettings Background="Red" DayFormat="dddd">
+                            </scheduler:SchedulerViewHeaderSettings>
+                        </scheduler:SchedulerMonthView.ViewHeaderSettings>
+                    </scheduler:SchedulerMonthView>
+                </scheduler:SfScheduler.MonthView>
+            </scheduler:SfScheduler>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
